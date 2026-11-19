@@ -67,6 +67,13 @@ Para analisar vídeos é preciso o Claude Code com o plugin Watch instalado no p
 
 Claude Code (skill + plugin de terceiro "Watch", MIT) · PowerShell 5.1 · FFmpeg · yt-dlp · WhisperX (CPU) · Markdown
 
+## Verificação, sanitização e licença
+
+- **Testes:** `tests/run-tests.ps1` → **14/14** em 19/11/2026.
+- **Dados:** só uma análise de exemplo sintética; análises de vídeos de terceiros não estão nesta cópia.
+- **Sanitização:** o que foi removido, trocado ou inventado nesta cópia está em [`SANITIZACAO.md`](SANITIZACAO.md).
+- **Licença:** todos os direitos reservados; leitura permitida para avaliação de portfólio — ver [`LICENSE`](LICENSE) e [`NOTICE`](NOTICE).
+
 ## Aviso
 
 Projeto pessoal. As análises reais de vídeos de terceiros **não** estão nesta versão pública (direitos do criador
