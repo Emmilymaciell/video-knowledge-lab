@@ -1,0 +1,29 @@
+# Normaliza fim de linha e evita os avisos "LF will be replaced by CRLF".
+# Definir isto por projeto e o que permite manter core.autocrlf do sistema
+# intacto sem que os repositorios divirjam entre si.
+* text=auto eol=lf
+
+# Scripts do PowerShell rodam melhor com CRLF no Windows.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Texto que queremos ver como diff legivel no git gui / gitk.
+*.md   text
+*.py   text
+*.yaml text
+*.yml  text
+*.json text
+*.csv  text
+*.tsv  text
+
+# Binarios: nunca converter.
+*.xlsx binary
+*.xlsm binary
+*.docx binary
+*.pptx binary
+*.pdf  binary
+*.pbix binary
+*.png  binary
+*.jpg  binary
+*.zip  binary

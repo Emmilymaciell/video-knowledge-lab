@@ -1,0 +1,184 @@
+# =============================================================================
+# .gitignore — Video Knowledge Lab
+#
+# Padrao conservador do Project OS: por default o Git versiona a AUTOMACAO
+# (codigo, skills, configs de exemplo, documentacao) e NUNCA os documentos
+# operacionais, saidas, logs, caches ou credenciais.
+#
+# Se o projeto PRECISA versionar algum binario, abra excecao explicita com "!"
+# e escreva o porque na linha de cima. Excecao sem justificativa vira vazamento.
+# =============================================================================
+
+# --- Python -------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# --- Node ---------------------------------------------------------------------
+node_modules/
+
+# --- Saidas de execucao -------------------------------------------------------
+/output/*
+!/output/README.txt
+/logs/*
+!/logs/README.txt
+/artifacts/*
+!/artifacts/.gitkeep
+
+# --- Documentos operacionais (rede de seguranca) ------------------------------
+*.csv
+
+# Excecao: dado de EXEMPLO, pequeno e inventado, que o README manda usar.
+# Sem isto o comando documentado aponta para um arquivo que nao existe no
+# clone - lacuna encontrada no teste de aceitacao da Fase 1.
+!/examples/
+!/examples/**
+
+# --- CSV em examples/: so em diretorio DECLARADO de dado sintetico -----------
+# Decisao da Emmily na subfase 2.3.
+#
+# A negacao ampla acima liberava QUALQUER csv dentro de examples/, e o unico
+# guarda-corpo contra um extrato operacional real era o comentario - a mesma
+# forma do defeito que o security-reviewer achou com '.xlsx'. E CSV e o
+# formato mais provavel de um extrato de verdade.
+#
+# Agora o caminho e o guarda-corpo: csv volta a ser ignorado em examples/, e
+# so 'examples/fixtures/' e 'examples/synthetic/' o liberam. Colocar um csv
+# ali e um ato deliberado, e o nome do diretorio declara o que aquele dado e.
+# CSV fora desses dois continua ignorado, aqui e em qualquer outro lugar.
+/examples/**/*.csv
+!/examples/fixtures/**/*.csv
+!/examples/synthetic/**/*.csv
+
+# --- Binario de escritorio: DEPOIS da excecao, de proposito -------------------
+# O Git aplica o ULTIMO padrao que casa, entao este bloco vence a negacao de
+# examples/ acima e vale tambem dentro dela.
+#
+# Ate a subfase 2.3 este bloco vinha ANTES da negacao, e o efeito era que
+# 'examples/planilha.xlsx' e 'examples/relatorio.pdf' NAO eram ignorados em
+# nenhum projeto instanciado deste template: o unico guarda-corpo contra
+# commitar uma planilha real era o comentario acima. Achado do
+# security-reviewer na 2.3 e confirmado com 'git check-ignore'.
+#
+# Dado de exemplo e pequeno e em TEXTO. Planilha, apresentacao e PDF nao
+# entram, nem como exemplo.
+*.doc
+*.docx
+*.dot
+*.dotx
+*.xls
+*.xlsx
+*.xlsm
+*.xlsb
+*.xltx
+*.ppt
+*.pptx
+*.potx
+*.pdf
+*.pbix
+*.pbit
+
+# --- Imagens ------------------------------------------------------------------
+# Excecao usual: assets PERMANENTES de skill (logo, icone). Liberar caso a caso.
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tif
+*.tiff
+*.emf
+*.wmf
+!.claude/skills/**/assets/*.png
+
+# --- Credenciais e segredos ---------------------------------------------------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+*.p12
+*.crt
+*.cer
+*.jks
+*.keystore
+*secret*
+*token*
+*cookie*
+*credential*
+*password*
+secrets/
+.secrets/
+.aws/
+.azure/
+.msal_cache*
+*.sqlite
+# Nomes canonicos que os curingas acima NAO pegam.
+#
+# Entraram aqui por ANALOGIA com a lacuna que o scanner achou no .gitignore
+# da raiz da plataforma - nao por deteccao neste arquivo: 'scan-gitignore.ps1'
+# sonda os nomes canonicos so na raiz do repositorio varrido, e um .gitignore
+# aninhado como este nao e alcancado por essa pergunta. O qa-reviewer apontou
+# a diferenca na subfase 2.3. Quem prova a cobertura DESTE arquivo e o teste
+# dedicado em tests/suites/template.ps1, que pergunta ao git check-ignore.
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+service-account.json
+
+# --- Office: bloqueio e temporarios -------------------------------------------
+~$*
+*.~*
+.~lock.*
+*.tmp
+*.temp
+*.bak
+
+# --- Scratchpad ---------------------------------------------------------------
+scratchpad/
+.scratchpad/
+tmp/
+temp/
+
+# --- Lixo de SO / editor ------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~
+.vscode/
+.idea/
+
+# --- Video Knowledge Lab (ADR-0002) -------------------------------------------
+# No Git entra so a ANALISE final (biblioteca/*.md) e o indice. Material bruto
+# - midia baixada, audio extraido, frames, transcricao bruta, cache do Watch -
+# fica em trabalho/, que nunca sobe. Cookies de plataforma ja sao barrados
+# pelo curinga *cookie* acima.
+/trabalho/*
+!/trabalho/README.txt
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.avi
+*.m4v
+*.mp3
+*.m4a
+*.wav
+*.aac
+*.ogg
+*.opus
+*.flac
+*.webp
+*.vtt
+*.srt
+frames/
+.cache/

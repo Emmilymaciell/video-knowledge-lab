@@ -1,0 +1,157 @@
+# Preenchido por /os:new-project. Os campos marcados OBRIGATORIO nao podem ficar vazios.
+# Este arquivo e o cartao de identidade do projeto: /os:status, /os:handoff e
+# /os:portfolio leem daqui. Se estiver desatualizado, eles mentem.
+
+identidade:
+  nome: "video-knowledge-lab"              # OBRIGATORIO. kebab-case.
+  titulo: "Video Knowledge Lab"           # OBRIGATORIO. Como uma pessoa chamaria.
+  descricao: "Biblioteca pessoal de conhecimento extraido de conteudos audiovisuais (Reels, YouTube, TikTok, MP4), um video por vez, em Markdown por tema"         # OBRIGATORIO. Uma frase: que problema resolve.
+  categoria: "personal"             # work | university | personal | ai-lab | platform
+  cliente: "pessoal"
+  criado_em: "2026-11-06"
+  versao: "0.2.0"                       # SemVer, tres componentes (ADR-0006)
+
+classificacao:
+  # Determina o rigor aplicado. Nao inflar: projeto pequeno com rigor de producao
+  # so gera cerimonia. Reavaliar quando o projeto crescer.
+  porte: "ferramenta"                    # script | ferramenta | aplicacao | plataforma
+  criticidade: "baixa"        # baixa | media | alta
+  dados_sensiveis: false  # true se toca dado corporativo/pessoal de terceiro
+  # Excecoes DECLARADAS de dado sensivel. Vazio por padrao, e vazio e o normal.
+  #
+  # Este campo nasceu no manifesto da plataforma e nao aqui - o
+  # security-reviewer apontou o formato paralelo: projeto governado que toque
+  # dado de terceiro nao tinha onde declarar a excecao, e a plataforma
+  # governava por uma regra que ela nao distribuia.
+  #
+  # Campos de cada entrada, e TODOS sao obrigatorios para a excecao valer
+  # (ADR-0010):
+  #   caminho              - caminho exato, nao diretorio nem curinga
+  #   categoria            - a categoria exata do achado, como o relatorio a escreve
+  #   natureza             - o que existe naquele caminho
+  #   justificativa        - por que e aceitavel
+  #   decisao              - o que foi decidido, e o que continua exigido
+  #   status               - "aceito-por-excecao" e o UNICO valor que vale
+  #   decidido_em          - data
+  #   escopo               - "privado". Publicacao exige sanitizacao, nao excecao
+  #   onde_esta_registrado - o ADR que registra a decisao
+  #
+  # Duas regras que impedem isto de virar allowlist:
+  #   - correspondencia EXATA de caminho E categoria. Achado parecido em outro
+  #     arquivo continua bloqueando;
+  #   - o achado NAO e silenciado: continua no relatorio, com a severidade
+  #     original, citando a excecao. Aceitar e decisao registrada.
+  #
+  # 'status' diferente de "aceito-por-excecao", ou campo obrigatorio faltando,
+  # significa que a excecao NAO cobre nada. Declarar nao e decidir.
+  dados_sensiveis_excecoes: []
+  componente_llm: true    # a analise audiovisual e julgamento de modelo. true se alguma saida depende de julgamento de modelo
+
+versionamento:
+  git: true
+  branch_padrao: "main"
+  remoto: ""                  # "" enquanto local. GitHub sempre privado.
+  visibilidade: "privado"               # privado | publico. Publico e ato deliberado.
+
+verificacao:
+  # Preenchido pela deteccao automatica, nao pela usuaria.
+  # A politica esta em docs/VERIFICATION-POLICY.md do Project OS. Declarar aqui
+  # NAO e verificar: o /os:doctor compara este bloco com o que existe de fato.
+  tests: true                  # codigo deterministico
+  evals: false                  # adiado (ADR-0002): criar evals/ com as primeiras analises reais como referencia (Watch ja validado, ADR-0003)
+  integration_tests: false # depende de servico externo
+  security_check: true      # sem dado sensivel, mas ha risco de cookie/credencial do Watch e midia pesada: /os:security antes de push
+  ci: false                             # ativado quando houver remoto
+  # O comando e o MESMO em todo projeto governado, qualquer que seja a
+  # linguagem. Nao personalize: o runner detecta a trilha. Ele existe porque o
+  # comando longo e especifico da maquina ficava copiado em CLAUDE.md e
+  # README.md e divergia - e comando de teste documentado e nunca executado
+  # foi a lacuna mais cara do teste de aceitacao da Fase 1.
+  # SOBRE HOOKS DE GIT (subfase 2.6 da plataforma):
+  # Quando este projeto adotar hooks, e aqui que a politica do pre-push vai
+  # morar - 'verificacao.hooks.pre_push', lista de BLOCO, vocabulario fechado
+  # (security, doctor, tests, nenhum). O campo NAO vem declarado por padrao de
+  # proposito: declarar politica de hook num projeto que ainda nao tem hooks
+  # seria afirmar capacidade que nao existe.
+  #
+  # O template ainda nao entrega os hooks porque as duas saidas tem custo -
+  # copiar o scanner e o doctor para dentro de cada projeto, ou criar uma
+  # segunda implementacao das mesmas regras. Ver o item 94 do backlog em
+  # docs/STATE.md da plataforma. Caminho absoluto para o plugin da maquina
+  # esta descartado: e dependencia oculta do computador atual.
+  comando: '.\tests\run-tests.ps1'
+  # A frase que define "pronto" para ESTE projeto. Fonte de verdade unica:
+  # os testes leem daqui. Nao repita o criterio na prosa do README nem cravado
+  # numa assercao - numero repetido envelhece, e ja envelheceu antes.
+  criterio_de_pronto: "Cada video analisado gera um unico .md autossuficiente, no modelo templates/analise-video.md, na pasta do seu tema em biblioteca/, listado no indice.md, e a suite de estrutura passa"
+  # Limites numericos que as assercoes usam, lidos pelo harness de teste.
+  # Vazio e o normal em projeto sem tolerancia numerica. Exemplo:
+  #   limites:
+  #     erro_maximo_m: 1.0
+  # Limite AUSENTE faz o teste falhar, nunca passar: criterio que nao esta
+  # aqui nao e criterio (VERIFICATION-POLICY 4.5).
+  limites: {}
+  # Derivado de classificacao.criticidade (ADR-0007), nao escolhido a gosto:
+  #   baixa -> nenhuma | media -> qa | alta -> qa+security
+  # dados_sensiveis: true forca no minimo qa+security.
+  revisao_independente: "nenhuma"
+
+execucao:
+  # Como conduzir o trabalho neste projeto. Reavaliar quando o projeto crescer.
+  modo_atual: "main-claude"             # main-claude | subagent | parallel | worktrees | agent-team | workflow
+  nivel_autonomia: 4                    # 0 ler .. 7 deploy. Ver ARCHITECTURE.md secao 8.
+
+ambiente:
+  python: "3.13"                     # 3.12 | 3.13 | nao-usa. So para rodar o Watch (py -3.13). O WhisperX tem Python 3.12 proprio, isolado (ADR-0003).
+  node: "nao-usa"                      # 24 | nao-usa
+  powershell: "5.1"
+  # ADR-0003. Fora do repositorio; validadas em 2026-11-06.
+  dependencias_externas:
+    - nome: "Watch (bradautomates/claude-video)"
+      versao: "0.3.2"
+      para: "frames, legendas e transcricao dos videos"
+      onde: "plugin Claude Code, escopo de projeto (.claude/settings.local.json); config em ~/.config/watch/.env"
+    - nome: "WhisperX"
+      versao: "3.8.6, modelo small, CPU int8"
+      para: "transcricao local quando nao ha legenda"
+      onde: "~/.cache/watch/whisperx-venv (Python 3.12 via uv); modelos em ~/.cache/huggingface e ~/.cache/torch/hub"
+  # O que o /os:doctor COBRA. Campo ausente vira WARN ("ainda nao declarou");
+  # [] e declaracao EXPLICITA de que nao ha dependencia verificavel, e e
+  # valido. A diferenca entre os dois e "nao tenho" contra "nao pensei".
+  # Ausencia de ferramenta que o projeto NAO declara usar nunca e diagnostico
+  # negativo.
+  # Entrada: ferramenta (nome no PATH), para (por que), obrigatoria (true
+  # quando verificacao.comando nao roda sem ela - obrigatoria e ausente e
+  # FAIL; opcional e ausente e WARN).
+  #   dependencias:
+  #     - ferramenta: "git"
+  #       para: "versionamento"
+  #       obrigatoria: true
+  # Nenhuma e obrigatoria para verificacao.comando (a suite nao roda o Watch);
+  # todas sao necessarias para analisar um video. Instaladas por winget.
+  dependencias:
+    - ferramenta: "ffmpeg"
+      para: "extrair frames e audio (Watch)"
+      obrigatoria: false
+    - ferramenta: "ffprobe"
+      para: "ler duracao e formato do video (Watch)"
+      obrigatoria: false
+    - ferramenta: "yt-dlp"
+      para: "baixar video e legendas de URL (Watch). Manter na versao mais recente"
+      obrigatoria: false
+    - ferramenta: "deno"
+      para: "runtime JS do yt-dlp para YouTube (EJS)"
+      obrigatoria: false
+    - ferramenta: "uv"
+      para: "gerenciar o ambiente isolado do WhisperX"
+      obrigatoria: false
+
+portfolio:
+  elegivel: false
+  exposicao: "nenhuma"                  # nenhuma | sanitizado | completo
+  # "sanitizado" exige passar pelo /os:portfolio. Nunca inventar metrica.
+
+estado:
+  fase: "fundacao"
+  ultimo_checkpoint: "2026-11-06 v0.2.0 - biblioteca por tema + Watch local validado"                 # /os:checkpoint atualiza ISTO tambem, nao so o STATE.
+  # O estado detalhado vive em docs/STATE.md. Aqui fica so o ponteiro.
