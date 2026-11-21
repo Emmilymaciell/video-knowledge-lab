@@ -17,9 +17,9 @@ Hoje quero analisar alguns Reels sobre Claude Code.
 <link>
 ```
 
-ou então: `Analisa isso e salva na categoria que achar melhor: <link>`. O fluxo está em [.claude/skills/analisar-video/SKILL.md](.claude/skills/analisar-video/SKILL.md) e as regras de tema em [docs/CATEGORIAS.md](docs/CATEGORIAS.md).
+ou então: `Analisa isso e salva na categoria que achar melhor: <link>`. O fluxo está em [.claude/skills/analisar-video/SKILL.md](../.claude/skills/analisar-video/SKILL.md) e as regras de tema em [docs/CATEGORIAS.md](CATEGORIAS.md).
 
-> Ferramenta audiovisual: plugin Watch em modo local e gratuito (frames + legendas + WhisperX em CPU), ver [ADR-0003](docs/decisions/ADR-0003-watch-local-gratuito.md). Para analisar: abra o Claude Code nesta pasta e diga *"Analise este Reel e salve o conhecimento na categoria Claude Code: <link>"*.
+> Ferramenta audiovisual: plugin Watch em modo local e gratuito (frames + legendas + WhisperX em CPU), ver [ADR-0003](decisions/ADR-0003-watch-local-gratuito.md). Para analisar: abra o Claude Code nesta pasta e diga *"Analise este Reel e salve o conhecimento na categoria Claude Code: <link>"*.
 
 ## Como rodar os testes
 
@@ -28,7 +28,7 @@ ou então: `Analisa isso e salva na categoria que achar melhor: <link>`. O fluxo
 .\tests\run-tests.ps1
 ```
 
-Saída `0` passou, `1` falhou, `2` **a suíte não rodou**. Ver [tests/README.md](tests/README.md).
+Saída `0` passou, `1` falhou, `2` **a suíte não rodou**. Ver [tests/README.md](../tests/README.md).
 
 ## Estrutura
 

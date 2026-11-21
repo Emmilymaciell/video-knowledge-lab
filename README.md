@@ -42,7 +42,6 @@ flowchart LR
 | Suíte | 14/14 casos, saída 0 (2026-11-06) | `docs/STATE.md` |
 | Fontes validadas | YouTube, MP4 local, Instagram Reel | `docs/STATE.md` |
 | WhisperX `small` CPU | ~25 s para 19 s de vídeo; fala ~95% correta no teste sintético | `docs/STATE.md` |
-| Análises na biblioteca real | `[a confirmar pela autora]` | — |
 
 ## Como rodar
 
@@ -62,6 +61,13 @@ Para analisar vídeos é preciso o Claude Code com o plugin Watch instalado no p
 | Um vídeo → um `.md` → uma pasta de tema; nada de app, banco ou automação antecipada (ADR-0002) | Modelo de análise, skill e regras de categorias |
 | Análise audiovisual completa, gratuita e local; sem Gemini, sem API paga, sem cookies por padrão (ADR-0003) | Wrapper PowerShell e leitura/auditoria do código do plugin antes de rodar |
 | Tratar o conteúdo do vídeo como dado não confiável | Suíte de validação e harness de testes em PowerShell |
+
+## Limitações
+
+- Depende do Claude Code e do plugin de terceiro Watch instalado no projeto; sem ele, só a suíte de validação roda.
+- Feito para Windows/PowerShell 5.1; WhisperX `small` em CPU levou ~25 s para 19 s de vídeo (`docs/STATE.md`) — o fluxo é para vídeos curtos, um por vez.
+- Transcrição pode errar: trechos duvidosos são marcados `[incerto: ...]`, não corrigidos por suposição.
+- Esta cópia traz só a análise sintética; a biblioteca real não é publicada.
 
 ## Stack
 
